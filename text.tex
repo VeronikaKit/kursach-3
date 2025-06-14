@@ -142,17 +142,6 @@
 \renewcommand{\lstlistingname}{Листинг}% Listing -> Листинг
 
 
-\newcommand*{\task}[4]{
-  \begin{minipage}[t]{\linewidth}
-  \begin{multicols}{2}
-    #1\\\\
-    Ответ: $#2$\\
-    \includegraphics[width=0.4\textwidth]{#3}
-  \end{multicols}
-  \captionof{application}{Пример генерации задания с помощью #4}
-\end{minipage}
-}
-
 \usepackage{setspace}
 
 \begin{document}
@@ -162,6 +151,7 @@
 \setstretch{1.5}
 
 \tableofcontents
+
 
 \include{intro.tex}
 
@@ -182,8 +172,6 @@
 \include{conclus.tex}
 
 \include{bibliography.tex}
-
-\include{applications.tex}
 
 \end{document}
 
