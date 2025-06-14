@@ -8,7 +8,7 @@
     genAssert(k>n,'Общее затраченное время больше стоянки');
     genAssert(k<20,'Время стоянки не должно быть слишком большим');
     let the_activeFloatingVehicle = sklonlxkand(decor.activeFloatingVehicle.iz());
-    let the_humanSettlementDestination = sklonlxkand(decor.humanSettlementDestination.iz()); // ["пункт","город","село","деревня"]
+    let the_humanSettlementDestination = sklonlxkand(decor.humanSettlementDestination.iz());
     let the_orderToFind = decor.orderToFind.iz(); 
     NAtask.setTask({
     text:
@@ -23,5 +23,3 @@
 });
 NAtask.modifiers.allDecimalsToStandard(/*true*/);
 }, 2000);})();
-//VeronikaKit
-//Решу ЕГЭ 26588

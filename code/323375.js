@@ -21,5 +21,3 @@
 	});
 	NAtask.modifiers.allDecimalsToStandard(/*true*/);
 }, 2000);})();
-//VeronikaKit
-//Решу ЕГЭ 523375

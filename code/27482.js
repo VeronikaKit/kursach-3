@@ -6,11 +6,11 @@
     let x=(-b*a+v)/(2*b);
 	genAssert(x>0,'Скорость не может быть отрицательной'); 
 	genAssertZ1000(x,'Скорость не может быть слишком дробной');
-    let the_berthForFloatingVehicle = sklonlxkand(decor.berthForFloatingVehicle.iz()); // ["пристань","причал"]
-	let the_waterbodyWithoutCurrent = sklonlxkand(decor.waterbodyWithoutCurrent.iz()); // ["озеро","водохранилище"]
-	let the_activeFloatingVehicle = sklonlxkand(decor.activeFloatingVehicleF.iz()); // ["лодка","байдарка","баржа","яхта","моторная лодка"]
-	let the_afterAWhile = decor.afterAWhile.iz(); // ["на следующий день","через день","в этот же день","через два дня","через три дня","через неделю"]
-	let the_orderToFind = decor.orderToFind.iz(); // ["найдите","определите","вычислите"] 
+    let the_berthForFloatingVehicle = sklonlxkand(decor.berthForFloatingVehicle.iz());
+	let the_waterbodyWithoutCurrent = sklonlxkand(decor.waterbodyWithoutCurrent.iz());
+	let the_activeFloatingVehicle = sklonlxkand(decor.activeFloatingVehicleF.iz());
+	let the_afterAWhile = decor.afterAWhile.iz();
+	let the_orderToFind = decor.orderToFind.iz();
     NAtask.setTask({
 		text:
 		    '' + the_berthForFloatingVehicle.im.toZagl() +' A и B расположены на ' + the_waterbodyWithoutCurrent.pe +', '+
@@ -23,5 +23,3 @@
 	NAtask.modifiers.allDecimalsToStandard(/*true*/);
 	NAtask.modifiers.variativeABC();
 }, 2000);})();
-//VeronikaKit
-//Решу ЕГЭ 27482
