@@ -2,6 +2,7 @@
 
 \usepackage{ifluatex}
 \usepackage{ifpdf}
+\usepackage{pdfpages}
 
 \ifluatex
 \usepackage{fontspec}
@@ -146,7 +147,7 @@
 
 \begin{document}
 
-\include{title.tex}
+\includepdf[pages=-]{title.pdf}
 
 \setstretch{1.5}
 
