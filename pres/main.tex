@@ -1,0 +1,367 @@
+\documentclass[aspectratio=169,12pt]{beamer}
+\usepackage{fontspec}
+\setmainfont{CMU Serif}
+\newfontfamily{\cyrillicfont}{CMU Serif}
+\setsansfont{CMU Sans Serif}
+\newfontfamily{\cyrillicfontsf}{CMU Sans Serif}
+\setmonofont{CMU Typewriter Text}
+\newfontfamily{\cyrillicfonttt}{CMU Typewriter Text}
+
+%%% Fonts and language setup.
+\usepackage{polyglossia}
+%% Math
+\usepackage{amsmath, amsfonts, amssymb, amsthm, mathtools} % Advanced math tools.
+\usepackage{icomma} % "Умная" запятая: $0,2$ --- число, $0, 2$ --- перечисление
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+
+\usetheme{boxes}
+\usecolortheme[style=light]{Nord}
+\usefonttheme{Nord}
+\setbeamertemplate{navigation symbols}{}%remove navigation symbols
+\usepackage{minted}
+\usemintedstyle{nord}
+%\setbeamerfont{footline}{size=\large}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{verbatim}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tikz,tikz-3dplot}
+\usetikzlibrary{arrows, positioning, shapes}
+
+\usepackage{bbding}
+\newcommand{\greencheck}{{\color{ForestGreen}\Checkmark}}
+\newcommand{\redsolid}{{\color{BrickRed}\XSolid}}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={let, typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]",
+}
+
+\lstset{
+  language=JavaScript,
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  breakatwhitespace=true,
+  showspaces=false,
+  numbers=none,
+  keepspaces=false,
+  breaklines=false,
+  showtabs=false,
+  captionpos=b
+  escapechar =|,
+  frame=none,
+  commentstyle=\itshape ,
+  stringstyle =\bfseries,
+  linewidth = \linewidth,
+  xleftmargin = -30pt,
+  xrightmargin = -15pt,
+}
+
+\newtcolorbox{leftBox}{
+  colback=NordWhite,colframe=NordBlack,
+  width = 0.97\linewidth,
+  sharp corners = southwest,
+}
+
+\newtcblisting{oldrightBox}{
+  before=\begin{flushright},
+  after=\end{flushright},
+  colback=NordWhite,colframe=NordBlack,
+  width = 0.97\linewidth,
+  sharp corners = southeast,
+  listing only,
+}
+
+\newtcolorbox{rightBox}{
+  before=\begin{flushright},
+  after=\end{flushright},
+  colback=NordWhite,colframe=NordBlack,
+  width = 0.97\linewidth,
+  sharp corners = southeast,
+  listing only,
+}
+\setbeamerfont{footline}{size=\footnotesize}
+\setbeamertemplate{footline}[frame number]
+
+%%% Polyglossia setup after  (nearly) everything as described in documentation.
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+
+\usepackage{multicol}
+\usepackage{xcolor}
+\setlength{\columnsep}{0.5cm}
+
+\begin{document}
+\begin{frame}
+	\begin{center}
+		\vspace{1cm}
+		\Large\textcolor{NordBrightBlue}{\textbf{
+			Программная реализация на языке JavaScript некоторых алгоритмов генерации ФОС по математике
+		}}\\
+	\end{center}
+	\vspace{0.5cm}
+	\large\textcolor{NordBlue}{\textit{%
+		Каменский М.И., Китаева В.Д.
+	}}\\
+	\large\textcolor{NordBlue}{\textit{Научный руководитель: д.ф.-м.н., проф. Каменский М.И.}}\\
+	%\large\textcolor{NordBlue}{\textit{Научный консультант: асп. Авдеев Н.Н.}}\\
+	\vspace{0.5cm}
+	\begin{center}
+		2026
+	\end{center}
+	%\begin{center}
+	%	Воронеж, ВГУ
+	%\end{center}
+
+\end{frame}
+
+\begin{frame}{Существующие проблемы при подготовке}
+	\begin{itemize}
+		%TODO: Тут написан какой-то бред
+		\item Дефицит заданий для подготовки
+		\item При появлении новых заданий в экзамене — дефицит материалов увеличивается в разы
+		\item Списывание ответов учениками
+		\item 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Проект «Час ЕГЭ»}
+	\large
+	«Час ЕГЭ» — компьютерный образовательный проект, разрабатываемый при математическом факультете ВГУ в рамках «OpenSource кластера» и предназначенный для помощи учащимся старших классов при подготовке к тестовой части единого государственного экзамена
+\end{frame}
+
+\begin{frame}{Используемые технологии}
+	\begin{itemize}
+		\item
+			HTML5 + CSS3
+		\item
+			Язык программирования JavaScript
+		\item
+			Система контроля версий Git
+		\item
+			Сборка проекта с помощью NodeJS и Grunt
+		\item
+			Пакетный менеджер NPM
+		\item
+			Платформа GitHub для совместной работы над исходным кодом
+	\end{itemize}
+	Код опубликован под лицензией GNU GPLv3.
+\end{frame}
+
+
+\begin{frame}{Важнейшие внешние библиотеки}
+	\begin{itemize}
+		\item
+			MathJax для отображения формул в \LaTeX
+		\item
+			mathjs и nerdamer для работы с символьной алгеброй
+		\item
+			jQuery для некоторых элементов интерфейса
+	\end{itemize}
+\end{frame}
+
+
+
+%\begin{frame}{Достижения}
+%	\begin{itemize}
+%		%Там уже было, но я ДОПИСАЛА за год
+%		%добавить
+%		\item Полностью покрыт открытый банк заданий ФИПИ ЕГЭ профильного уровня по темам:
+%		      \begin{itemize}
+%			      \item Планиметрия — 26 шаблонов принято
+%			      \item Вектора — 18 шаблонов (10 принято, 8 на рецензировании)
+%			      \item Стереометрия — 61 шаблонов (8 принято, 53 на рецензировании)
+%			      \item Теория вероятности — 10 шаблонов (9 принято, 1  на рецензировании)
+%			      \item Теория вероятности (повышенной сложности) — 11 шаблонов принято
+%			      \item Производная и первообразная — 17 шаблонов на рецензировании
+%		      \end{itemize}
+%	\end{itemize}
+%\end{frame}
+
+\begin{frame}{Тройная польза!}
+	\begin{itemize}
+		\item
+			Абитуриенты получают много качественных, разнообразных заданий
+		\item
+			Преподаватели получают много заданий, которые абитуриенты не могут списать
+		\item
+			Студенты работают над реально полезным OpenSource-проектом в команде
+	\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Примеры элементарных задач}
+	\begin{itemize}
+		\item 
+		    Площадь поверхности прямоугольного параллелепипеда с ребрами a, b и c вычисляется по формуле $S=2(ab+ac+bc)$. Найдите площадь поверхности прямоугольного параллелепипеда с ребрами $9$, $8$ и $6$.
+			\emph{(Ответ: 348)}
+		\item
+		    Площадь поверхности прямоугольного параллелепипеда с ребрами a, b и c вычисляется по формуле $S=2(ab+ac+bc)$. Найдите площадь поверхности прямоугольного параллелепипеда с ребрами $3$, $18$ и $28$.
+			\emph{(Ответ: 1284)}
+		\item
+		    Площадь поверхности прямоугольного параллелепипеда с ребрами a, b и c вычисляется по формуле $S=2(ab+ac+bc)$. Найдите площадь поверхности прямоугольного параллелепипеда с ребрами $15$, $3$ и $23$.			
+			\emph{(Ответ: 918)}
+	\end{itemize}
+	Все задачи сгенерированы одним шаблоном: \texttt{zdn/matege2024b/16/511648.js} .
+\end{frame}
+
+
+\begin{frame}{Библиотека для работы с геометрическими фигурами}
+	\begin{itemize}
+		\item Разработана библиотека \texttt{flatten-shape-geometry} и опубликована на NPM, зависящая от библиотек:
+		      \texttt{@flatten-js/core}, \texttt{mathjs} и других
+		\item \texttt{flatten-shape-geometry} содержит классы: ShapeWithConnectionMatrix, Angle,  Triangle, Quadrilateral, Square, Rectangle, Rhombus, Parallelogram, Trapezoid
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Библиотека для работы с геометрическими фигурами}
+	\begin{itemize}
+		\item В библиотеке присутствуют вспомогательные функции:
+		\begin{itemize}
+			\item Нахождения перпендикуляра, опущенного из точки на отрезок
+			\item Сдвига координат
+			\item Нахождения центра описанной окружности
+		\end{itemize}
+		\item Для класса Circle из \texttt{@flatten-js/core} написаны методы:
+		      \begin{itemize}
+			      \item Получения точки на окружности по заданному углу
+			      \item Построения отрезков: радиусов, диаметров и хорд
+			      \item Построения касательных из точки к окружности
+		      \end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Устройство flatten-shape-geometry}
+	\begin{center}
+		\begin{tikzpicture}[
+				roundnode/.style={ellipse, draw=NordBlack, fill=NordBlack!5, very thick, minimum size=5mm},
+				squarednodeclass/.style={rectangle, draw=NordGreen, fill=NordGreen!10, very thick, minimum size=5mm},
+				squarednodefunc/.style={rectangle, draw=NordOrange, fill=NordOrange!10, very thick, minimum size=5mm},
+				squarednodemethod/.style={rectangle, draw=NordMagenta, fill=NordMagenta!10, very thick, minimum size=5mm},
+				line width=1.2pt
+			]
+
+			% Nodes
+			\node[roundnode]      (polygon)      					{Polygon};
+			\node[squarednodeclass]    (swcm)       [below=of polygon] 	{SWCM};
+			\node[roundnode]      (vector)     [right=of polygon]  {Vector};
+			\node[roundnode]      (point)     [right=of vector] {Point};
+			\node[squarednodeclass]    (angle)      [below=of point] 		{Angle};
+			\node[squarednodefunc]      (general)    	[right=of point] {general};
+			\node[roundnode]      (line)    [right=of general] {Line};
+			\node[roundnode]      (segment)    [below=of general] {Segment};
+			\node[roundnode]      (circle)    	[right=of segment] {Circle};
+			\node[squarednodemethod]      (ecm)    	[below=of circle] {ECM};
+
+			\node[squarednodeclass](triangle)  	   [below=of vector]  {Traingle};
+			\node[squarednodeclass](quadrilateral)  [below=of triangle]  {Quadrilateral};
+
+			\node[squarednodeclass](rhombus)  	[below=of quadrilateral]  {Rhombus};
+			\node[squarednodeclass](trapezoid)  	[right=of rhombus]  {Trapezoid};
+			\node[squarednodeclass](rectangle)  	[left=of rhombus]  {Rectangle};
+			\node[squarednodeclass](square)  	[right=of trapezoid]  {Square};
+
+			%Edges
+			\draw[->, dashed] (angle) --(vector) ;
+			\draw[->, dashed] (angle) -- (segment);
+			\draw[->, dashed] (angle) -- (point);
+
+			\draw[->, dashed] (general) --(line) ;
+			\draw[->, dashed] (general) -- (segment);
+			\draw[->, dashed] (general) -- (point);
+
+			\draw[->] (swcm) -- (polygon);
+			\draw[->] (triangle) -- (swcm);
+			\draw[->, dashed] (triangle) -- (angle);
+			\draw[->] (quadrilateral) -- (swcm);
+			\draw[->, dashed] (quadrilateral) -- (angle);
+
+			\draw[->] (rhombus) -- (quadrilateral);
+			\draw[->] (trapezoid) -- (quadrilateral);
+			\draw[->] (rectangle) -- (quadrilateral);
+			\draw[->] (square) -- (quadrilateral);
+
+			\draw[->, dashed] (ecm) -- (circle);
+			\draw[->, dashed] (ecm) -- (segment);
+
+		\end{tikzpicture}
+	\end{center}
+	SWCM - ShapeWithConnectionMatrix; \\ ECM - Extra Circle Methods;
+\end{frame}
+
+\begin{frame}{Иллюстрированные задачи}
+	\begin{figure}[h!]
+	 \includegraphics[width=0.9\textwidth]{Kolesnikova1.png}%название файла с рисунком - фамилия первого автора+номер рисунка в тексте тезисов
+	\end{figure}
+\end{frame}
+
+\begin{frame}{Иллюстрированные задачи}
+	\begin{figure}[h!]
+	 \includegraphics[width=0.9\textwidth]{Kolesnikova2.png}%название файла с рисунком - фамилия первого автора+номер рисунка в тексте тезисов
+	\end{figure}
+	Шаблон \texttt{zdn/matege2024p/8/27505.js}
+\end{frame}
+
+
+\begin{frame}[fragile]{Раннее успешное использование нейросетей для генерации кода}
+	\begin{leftBox}
+		write a 2D to 3D projector in JS without using libraries. input:  point = \{x,y,z\}, camera= \{x,y,z, angleX, angleY, angleZ, scale\}
+	\end{leftBox}
+
+	\begin{oldrightBox}
+		function project2Dto3D(point, camera) { ...	return { x: translatedX, y: translatedY, z: translatedZ };
+	\end{oldrightBox}
+
+	\begin{leftBox}
+		shorten function project2Dto3D
+	\end{leftBox}
+
+	\begin{oldrightBox}
+		function project2Dto3D(point, camera) { ...	return { x: rx + cx, y: ry + cy, z: rz + cz };
+	\end{oldrightBox}
+\end{frame}
+
+\begin{frame}{Попытки использования нейросетей для генерации тестов}
+	\begin{itemize}
+		\item Нейросети способны генерировать простейшие тесты без уточнений от программиста
+		\item При усложнении задачи качество тестов существенно падает
+		\item Нейросети не могут полностью заменить программиста в написании тестов
+		\item Требуется экспертная оценка и доработка сгенерированных тестов человеком
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Список используемых источников}
+	\begin{thebibliography}{10}
+		\bibitem{chasdok1} Момот Е. А., Арахов Н. Д. Разработка и внедрение ПО для сбора статистики результатов подготовки к ЕГЭ по математике профильного уровня //Актуальные проблемы прикладной математики, информатики и механики. – 2021. – С. 1-2.
+		\bibitem{npmjs} Node Package Manager. – URL: https://www.npmjs.com/
+		\bibitem{egemath} Открытый банк заданий ЕГЭ. – URL: https://fipi.ru/ege/otkrytyy-bank-zadaniy-ege
+		\bibitem{ogemath} Открытый банк заданий ОГЭ – URL:  https://fipi.ru/oge/otkrytyy-bank-zadaniy-oge
+	\end{thebibliography}
+\end{frame}
+
+\begin{frame}
+	\center\large\textcolor{NordBrightBlue}{\textbf{Спасибо за внимание}}\\
+	\hfill \break
+	\normalsize
+	Все добавленные в проект задания можно сгенерировать по ссылке\\
+	\hfill \break
+
+	\includegraphics[width=0.25\textwidth]{images/QR-code}\\
+	\hfill \break
+
+	https://math.vsu.ru/chas-ege/sh/katalog.html
+\end{frame}
+
+\end{document}
