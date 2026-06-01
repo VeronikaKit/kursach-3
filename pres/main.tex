@@ -130,10 +130,20 @@
 \begin{frame}{Существующие проблемы при подготовке}
 	\begin{itemize}
 		%TODO: Тут написан какой-то бред
-		\item Дефицит заданий для подготовки
-		\item При появлении новых заданий в экзамене — дефицит материалов увеличивается в разы
+		\item Дефицит заданий для подготовки в открытых банках
+		\item При появлении новых задач в экзамене — дефицит материалов увеличивается в разы
 		\item Списывание ответов учениками
-		\item 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Цель и задачи}
+	\begin{itemize}
+		%TODO: Тут написан какой-то бред
+		\item Цель: расширить каталог генераторов заданий и провести рефакторинг кода на JS
+		\item Задачи:
+		\item Написать шаблоны для генерации текстовых задач, уравнений, веооятности.
+		\item Обеспечить корректность (целые/рациональные ответы)
+		\item Улучшить читаемость и сопровождаемость кода
 	\end{itemize}
 \end{frame}
 
@@ -172,23 +182,14 @@
 	\end{itemize}
 \end{frame}
 
-
-
-%\begin{frame}{Достижения}
-%	\begin{itemize}
-%		%Там уже было, но я ДОПИСАЛА за год
-%		%добавить
-%		\item Полностью покрыт открытый банк заданий ФИПИ ЕГЭ профильного уровня по темам:
-%		      \begin{itemize}
-%			      \item Планиметрия — 26 шаблонов принято
-%			      \item Вектора — 18 шаблонов (10 принято, 8 на рецензировании)
-%			      \item Стереометрия — 61 шаблонов (8 принято, 53 на рецензировании)
-%			      \item Теория вероятности — 10 шаблонов (9 принято, 1  на рецензировании)
-%			      \item Теория вероятности (повышенной сложности) — 11 шаблонов принято
-%			      \item Производная и первообразная — 17 шаблонов на рецензировании
-%		      \end{itemize}
-%	\end{itemize}
-%\end{frame}
+\begin{frame}{Вклад автора в расширение каталога}
+	\begin{itemize}
+		\item ЕГЭ текстовые задачи - 11 шаблонов
+		\item ОГЭ уравнения - 15 шаблонов
+		\item Рефакторинг заданий - 11 шаблонов
+		\item Все задания и правки были приняты в основной репозиторий проекта
+	\end{itemize}
+\end{frame}
 
 \begin{frame}{Тройная польза!}
 	\begin{itemize}
@@ -217,120 +218,49 @@
 	Все задачи сгенерированы одним шаблоном: \texttt{zdn/matege2024b/16/511648.js} .
 \end{frame}
 
-
-\begin{frame}{Библиотека для работы с геометрическими фигурами}
-	\begin{itemize}
-		\item Разработана библиотека \texttt{flatten-shape-geometry} и опубликована на NPM, зависящая от библиотек:
-		      \texttt{@flatten-js/core}, \texttt{mathjs} и других
-		\item \texttt{flatten-shape-geometry} содержит классы: ShapeWithConnectionMatrix, Angle,  Triangle, Quadrilateral, Square, Rectangle, Rhombus, Parallelogram, Trapezoid
-	\end{itemize}
+\begin{frame}[fragile]{Пример шаблона – задача на движение по реке}
+	\begin{lstlisting}[caption={26586.js}, label=lst:template]
+	(function() {
+		'use strict';
+		retryWhileError(function() {
+			let s = sl(1, 200);       // расстояние
+			let n = sl(1, 10);        // разница во времени
+			let a = sl(1, 15);        // скорость течения
+			let v = (a**2 * n**2 + 2 * s * a * n).sqrt();
+			let x = v / n;
+			genAssert(x > 0, 'Скорость не может быть отрицательной');
+			genAssertZ1000(x, 'Скорость не должна быть слишком дробной');
+			// ... формирование текста задачи
+			NAtask.setTask({ text: ..., answers: x });
+		});
+	})();
+	\end{lstlisting}
 \end{frame}
 
-\begin{frame}{Библиотека для работы с геометрическими фигурами}
-	\begin{itemize}
-		\item В библиотеке присутствуют вспомогательные функции:
-		\begin{itemize}
-			\item Нахождения перпендикуляра, опущенного из точки на отрезок
-			\item Сдвига координат
-			\item Нахождения центра описанной окружности
-		\end{itemize}
-		\item Для класса Circle из \texttt{@flatten-js/core} написаны методы:
-		      \begin{itemize}
-			      \item Получения точки на окружности по заданному углу
-			      \item Построения отрезков: радиусов, диаметров и хорд
-			      \item Построения касательных из точки к окружности
-		      \end{itemize}
-	\end{itemize}
-\end{frame}
+\begin{frame}{Примеры сгенерированных задач (шаблон 26586.js)}
+    \begin{exampleblock}{Вариант 1 (байдарка)}
+        Байдарка прошла против течения реки \textbf{96} км и вернулась в пункт отправления,
+        затратив на обратный путь на \textbf{4} часа меньше.\\
+        Скорость течения равна \textbf{1} км/ч.\\
+        \textbf{Найдите скорость байдарки в неподвижной воде.}
+        \vspace{2mm}
+        
+        \textbf{Ответ:} 7 км/ч.
+    \end{exampleblock}
 
-\begin{frame}{Устройство flatten-shape-geometry}
-	\begin{center}
-		\begin{tikzpicture}[
-				roundnode/.style={ellipse, draw=NordBlack, fill=NordBlack!5, very thick, minimum size=5mm},
-				squarednodeclass/.style={rectangle, draw=NordGreen, fill=NordGreen!10, very thick, minimum size=5mm},
-				squarednodefunc/.style={rectangle, draw=NordOrange, fill=NordOrange!10, very thick, minimum size=5mm},
-				squarednodemethod/.style={rectangle, draw=NordMagenta, fill=NordMagenta!10, very thick, minimum size=5mm},
-				line width=1.2pt
-			]
+    \begin{exampleblock}{Вариант 2 (яхта)}
+        Яхта прошла против течения реки \textbf{140} км и вернулась в пункт отправления,
+        затратив на обратный путь на \textbf{8} часов меньше.\\
+        Скорость течения равна \textbf{1} км/ч.\\
+        \textbf{Определите скорость яхты в неподвижной воде.}
+        \vspace{2mm}
+        
+        \textbf{Ответ:} 6 км/ч.
+    \end{exampleblock}
 
-			% Nodes
-			\node[roundnode]      (polygon)      					{Polygon};
-			\node[squarednodeclass]    (swcm)       [below=of polygon] 	{SWCM};
-			\node[roundnode]      (vector)     [right=of polygon]  {Vector};
-			\node[roundnode]      (point)     [right=of vector] {Point};
-			\node[squarednodeclass]    (angle)      [below=of point] 		{Angle};
-			\node[squarednodefunc]      (general)    	[right=of point] {general};
-			\node[roundnode]      (line)    [right=of general] {Line};
-			\node[roundnode]      (segment)    [below=of general] {Segment};
-			\node[roundnode]      (circle)    	[right=of segment] {Circle};
-			\node[squarednodemethod]      (ecm)    	[below=of circle] {ECM};
-
-			\node[squarednodeclass](triangle)  	   [below=of vector]  {Traingle};
-			\node[squarednodeclass](quadrilateral)  [below=of triangle]  {Quadrilateral};
-
-			\node[squarednodeclass](rhombus)  	[below=of quadrilateral]  {Rhombus};
-			\node[squarednodeclass](trapezoid)  	[right=of rhombus]  {Trapezoid};
-			\node[squarednodeclass](rectangle)  	[left=of rhombus]  {Rectangle};
-			\node[squarednodeclass](square)  	[right=of trapezoid]  {Square};
-
-			%Edges
-			\draw[->, dashed] (angle) --(vector) ;
-			\draw[->, dashed] (angle) -- (segment);
-			\draw[->, dashed] (angle) -- (point);
-
-			\draw[->, dashed] (general) --(line) ;
-			\draw[->, dashed] (general) -- (segment);
-			\draw[->, dashed] (general) -- (point);
-
-			\draw[->] (swcm) -- (polygon);
-			\draw[->] (triangle) -- (swcm);
-			\draw[->, dashed] (triangle) -- (angle);
-			\draw[->] (quadrilateral) -- (swcm);
-			\draw[->, dashed] (quadrilateral) -- (angle);
-
-			\draw[->] (rhombus) -- (quadrilateral);
-			\draw[->] (trapezoid) -- (quadrilateral);
-			\draw[->] (rectangle) -- (quadrilateral);
-			\draw[->] (square) -- (quadrilateral);
-
-			\draw[->, dashed] (ecm) -- (circle);
-			\draw[->, dashed] (ecm) -- (segment);
-
-		\end{tikzpicture}
-	\end{center}
-	SWCM - ShapeWithConnectionMatrix; \\ ECM - Extra Circle Methods;
-\end{frame}
-
-\begin{frame}{Иллюстрированные задачи}
-	\begin{figure}[h!]
-	 \includegraphics[width=0.9\textwidth]{Kolesnikova1.png}%название файла с рисунком - фамилия первого автора+номер рисунка в тексте тезисов
-	\end{figure}
-\end{frame}
-
-\begin{frame}{Иллюстрированные задачи}
-	\begin{figure}[h!]
-	 \includegraphics[width=0.9\textwidth]{Kolesnikova2.png}%название файла с рисунком - фамилия первого автора+номер рисунка в тексте тезисов
-	\end{figure}
-	Шаблон \texttt{zdn/matege2024p/8/27505.js}
-\end{frame}
-
-
-\begin{frame}[fragile]{Раннее успешное использование нейросетей для генерации кода}
-	\begin{leftBox}
-		write a 2D to 3D projector in JS without using libraries. input:  point = \{x,y,z\}, camera= \{x,y,z, angleX, angleY, angleZ, scale\}
-	\end{leftBox}
-
-	\begin{oldrightBox}
-		function project2Dto3D(point, camera) { ...	return { x: translatedX, y: translatedY, z: translatedZ };
-	\end{oldrightBox}
-
-	\begin{leftBox}
-		shorten function project2Dto3D
-	\end{leftBox}
-
-	\begin{oldrightBox}
-		function project2Dto3D(point, camera) { ...	return { x: rx + cx, y: ry + cy, z: rz + cz };
-	\end{oldrightBox}
+    \begin{alertblock}{Ключевая особенность}
+        Один шаблон генерирует \textbf{сотни уникальных задач} с разными числами и типами плавсредств.
+    \end{alertblock}
 \end{frame}
 
 \begin{frame}{Попытки использования нейросетей для генерации тестов}
@@ -342,6 +272,69 @@
 	\end{itemize}
 \end{frame}
 
+\begin{frame}{Преимущества программной генерации}
+    \begin{columns}[T]
+        \column{0.48\textwidth}
+        \begin{block}{Статический банк (ФИПИ)}
+            \begin{itemize}
+                \item Конечное число задач
+                \item Ответы известны заранее
+                \item Быстрое заучивание
+                \item Нет вариативности
+            \end{itemize}
+        \end{block}
+        \column{0.48\textwidth}
+        \begin{block}{Генерация (Час ЕГЭ)}
+            \begin{itemize}
+                \item Бесконечное разнообразие
+                \item Нельзя подсмотреть ответ
+                \item Проверка понимания, а не памяти
+                \item Один шаблон → тысячи вариантов
+            \end{itemize}
+        \end{block}
+    \end{columns}
+    \vfill
+    \begin{alertblock}{Ключевое преимущество}
+        Экономия времени учителя + объективная оценка знаний.
+    \end{alertblock}
+\end{frame}
+
+\begin{frame}{Рефакторинг – зачем он нужен в JavaScript}
+    \begin{itemize}
+        \item \textbf{Отсутствие строгой типизации} → ошибки проявляются только во время выполнения.
+        \item \textbf{Асинхронная природа} языка → «callback hell», нечитаемые цепочки.
+        \item \textbf{Быстрое устаревание} кода (ECMAScript ежегодно обновляется).
+        \item \textbf{Накопление технического долга} → замедление разработки, рост числа ошибок.
+    \end{itemize}
+    \vfill
+    \begin{exampleblock}{Цель рефакторинга в проекте «Час ЕГЭ»}
+        Улучшить структуру кода без изменения функциональности: повысить читаемость, убрать дублирование, облегчить добавление новых заданий.
+    \end{exampleblock}
+\end{frame}
+
+\begin{frame}{Результаты рефакторинга}
+    \begin{table}
+        \centering
+        \begin{tabular}{|l|c|p{5cm}|}
+            \hline
+            \textbf{Задание / тип} & \textbf{Было файлов} & \textbf{Стало} \\
+            \hline
+            Касательная к графику & 50+ & 2 универсальных шаблона \\
+            Переливание жидкости & 5 разных & 1 шаблон с параметрами \\
+            Вероятностные задачи & 10+ & генерация имён, стран, видов спорта \\
+            \hline
+        \end{tabular}
+        \caption{Сокращение дублирования кода}
+    \end{table}
+    \vfill
+    \begin{itemize}
+        \item \textbf{11 заданий} подвергнуты глубокому рефакторингу.
+        \item Устранены неинформативные имена переменных (a1, tmp, z3).
+        \item Добавлены проверки \texttt{genAssert} для предотвращения некорректных генераций.
+        \item Код стал \textbf{самодокументируемым} и готов к расширению.
+    \end{itemize}
+\end{frame}
+
 \begin{frame}{Список используемых источников}
 	\begin{thebibliography}{10}
 		\bibitem{chasdok1} Момот Е. А., Арахов Н. Д. Разработка и внедрение ПО для сбора статистики результатов подготовки к ЕГЭ по математике профильного уровня //Актуальные проблемы прикладной математики, информатики и механики. – 2021. – С. 1-2.
@@ -351,17 +344,25 @@
 	\end{thebibliography}
 \end{frame}
 
-\begin{frame}
-	\center\large\textcolor{NordBrightBlue}{\textbf{Спасибо за внимание}}\\
-	\hfill \break
-	\normalsize
-	Все добавленные в проект задания можно сгенерировать по ссылке\\
-	\hfill \break
-
-	\includegraphics[width=0.25\textwidth]{images/QR-code}\\
-	\hfill \break
-
-	https://math.vsu.ru/chas-ege/sh/katalog.html
+\begin{frame}{Спасибо за внимание}
+    \centering
+    \vfill
+    {\Huge Спасибо!}
+    \vspace{0.5cm}
+    
+    \begin{minipage}{0.7\textwidth}
+        \centering
+        
+        \vspace{0.5cm}
+        Проект «Час ЕГЭ»: \url{https://math.vsu.ru/chas-ege/}
+        
+        \vspace{0.2cm}
+        \textit{Код открыт (GNU GPL 3.0), приглашаются новые разработчики.}
+    \end{minipage}
+    \vfill
+    \begin{flushright}
+        \small Китаева В.Д., ВГУ, математический факультет
+    \end{flushright}
 \end{frame}
 
 \end{document}

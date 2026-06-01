@@ -1,16 +1,17 @@
-\frametitle{Раннее успешное использование нейросетей для генерации кода}
-\begin{leftBox}
-		write a 2D to 3D projector in JS without using libraries. input:  point = \{x,y,z\}, camera= \{x,y,z, angleX, angleY, angleZ, scale\}
-	\end{leftBox}
-
-	\begin{oldrightBox}
-		function project2Dto3D(point, camera) { ...	return { x: translatedX, y: translatedY, z: translatedZ };
-	\end{oldrightBox}
-
-	\begin{leftBox}
-		shorten function project2Dto3D
-	\end{leftBox}
-
-	\begin{oldrightBox}
-		function project2Dto3D(point, camera) { ...	return { x: rx + cx, y: ry + cy, z: rz + cz };
-	\end{oldrightBox}
+\frametitle{Пример шаблона – задача на движение по реке}
+\begin{lstlisting}[caption={26586.js}, label=lst:template]
+	(function() {
+		'use strict';
+		retryWhileError(function() {
+			let s = sl(1, 200);       // расстояние
+			let n = sl(1, 10);        // разница во времени
+			let a = sl(1, 15);        // скорость течения
+			let v = (a**2 * n**2 + 2 * s * a * n).sqrt();
+			let x = v / n;
+			genAssert(x > 0, 'Скорость не может быть отрицательной');
+			genAssertZ1000(x, 'Скорость не должна быть слишком дробной');
+			// ... формирование текста задачи
+			NAtask.setTask({ text: ..., answers: x });
+		});
+	})();
+	\end{lstlisting}
