@@ -289,7 +289,6 @@
         \begin{block}{Генерация (Час ЕГЭ)}
             \begin{itemize}
                 \item Бесконечное разнообразие
-                \item Нельзя подсмотреть ответ
                 \item Проверка понимания, а не памяти
                 \item Один шаблон → тысячи вариантов
             \end{itemize}
@@ -315,19 +314,6 @@
 \end{frame}
 
 \begin{frame}{Результаты рефакторинга}
-    \begin{table}
-        \centering
-        \begin{tabular}{|l|c|p{5cm}|}
-            \hline
-            \textbf{Задание / тип} & \textbf{Было файлов} & \textbf{Стало} \\
-            \hline
-            Касательная к графику & 50+ & 2 универсальных шаблона \\
-            Переливание жидкости & 5 разных & 1 шаблон с параметрами \\
-            Вероятностные задачи & 10+ & генерация имён, стран, видов спорта \\
-            \hline
-        \end{tabular}
-        \caption{Сокращение дублирования кода}
-    \end{table}
     \vfill
     \begin{itemize}
         \item \textbf{11 заданий} подвергнуты глубокому рефакторингу.
@@ -359,7 +345,7 @@
         Проект «Час ЕГЭ»: \url{https://math.vsu.ru/chas-ege/}
         
         \vspace{0.2cm}
-        \textit{Код открыт (GNU GPL 3.0), приглашаются новые разработчики.}
+        \textit{Код открыт (GNU GPL 3.0)}
     \end{minipage}
     \vfill
     \begin{flushright}
